@@ -1,6 +1,6 @@
 ﻿namespace MultiUserBlogEngine.Domain.Entities;
 
-public class PostTag
+public class Tag
 {
     public required string Id { get; set; }
 
@@ -9,7 +9,7 @@ public class PostTag
     /// <summary>
     /// Посты, помеченные текущим тегом. Связь n:n, без связующей сущности.
     /// </summary>
-    public ICollection<PostTag>? Posts { get; set; }
+    public ICollection<Post>? Posts { get; set; }
 
     #endregion
 }

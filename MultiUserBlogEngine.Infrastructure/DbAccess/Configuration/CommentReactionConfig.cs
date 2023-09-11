@@ -8,6 +8,8 @@ internal class CommentReactionConfig : IEntityTypeConfiguration<CommentReaction>
 {
     public void Configure(EntityTypeBuilder<CommentReaction> builder)
     {
+        builder.ToTable($"{nameof(CommentReaction)}s");
+
         builder.HasKey(x => new { x.UserId, x.CommentId });
     }
 }

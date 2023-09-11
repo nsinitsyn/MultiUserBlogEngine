@@ -21,6 +21,21 @@ public static class AppDbContextExtensions
             DisplayName = "System"
         });
 
+        if(!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("MULTI_USER_BLOG_ENGINE_SEED_TEST_DATA")))
+        {
+            SeedTestData(dbContext);
+        }
+
         dbContext.SaveChanges();
+    }
+
+    private static void SeedTestData(AppDbContext dbContext)
+    {
+        dbContext.Users.Add(new User
+        {
+            UserRole = UserRole.User,
+            Email = "user@user.com",
+            DisplayName = "User1"
+        });
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MultiUserBlogEngine.Domain.Entities;
+using MultiUserBlogEngine.Domain.Entities.Links;
 
 namespace MultiUserBlogEngine.Infrastructure.DbAccess.Configuration;
 
@@ -21,13 +22,36 @@ internal class UserConfig : IEntityTypeConfiguration<User>
             .HasForeignKey(x => x.DeletedUserId);
 
         builder.HasMany(x => x.FavoritesPosts)
-            .WithMany();
+            .WithMany()
+            .UsingEntity("UserFavoritePostLink")
+            .ToTable("UserFavoritePostLinks");
 
         builder.HasMany(x => x.ReadLaterPosts)
-            .WithMany();
+            .WithMany()
+            .UsingEntity("UserReadLaterPostLink")
+            .ToTable("UserReadLaterPostLinks");
 
         builder.HasMany(x => x.PostComplaints)
             .WithOne(x => x.User)
             .HasForeignKey(x => x.UserId);
+
+        builder.HasMany(x => x.SubscribedTo)
+            .WithMany(x => x.Subscribers)
+            .UsingEntity<UserSubscribedToLink>(
+                b => b.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId),
+                b => b.HasOne(x => x.SubscribedToUser).WithMany().HasForeignKey(x => x.SubscribedToUserId))
+            .ToTable($"{nameof(UserSubscribedToLink)}s");
+
+        builder.HasMany(x => x.IgnoredPostTags)
+            .WithMany()
+            .UsingEntity("UserIgnoredPostTagLink")
+            .ToTable("UserIgnoredPostTagLinks");
+
+        builder.HasMany(x => x.IgnoredAuthors)
+            .WithMany()
+            .UsingEntity<UserIgnoredAuthorLink>(
+                b => b.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId),
+                b => b.HasOne(x => x.IgnoredAuthorUser).WithMany().HasForeignKey(x => x.IgnoredAuthorUserId))
+            .ToTable($"{nameof(UserIgnoredAuthorLink)}s");
     }
 }

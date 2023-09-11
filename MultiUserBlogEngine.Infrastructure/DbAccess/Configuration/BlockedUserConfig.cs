@@ -9,6 +9,8 @@ internal class BlockedUserConfig : IEntityTypeConfiguration<BlockedUser>
 {
     public void Configure(EntityTypeBuilder<BlockedUser> builder)
     {
+        builder.ToTable($"{nameof(BlockedUser)}s");
+
         builder.HasKey(x => x.UserId);
     }
 }

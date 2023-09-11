@@ -82,7 +82,7 @@ public class User : AuthoredEntity
     /// <summary>
     /// Теги, добавленные текущим пользователем в игнор-лист. Связь n:n, без связующей сущности.
     /// </summary>
-    public ICollection<PostTag>? IgnoredPostTags { get; set; }
+    public ICollection<Tag>? IgnoredPostTags { get; set; }
 
     /// <summary>
     /// Авторы постов, добавленные текущим пользователем в игнор-лист. Связь n:n, без связующей сущности.

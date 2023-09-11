@@ -53,7 +53,7 @@ public class Post : AuthoredEntity
     /// <summary>
     /// Теги к посту. Связь n:n, без связующей сущности.
     /// </summary>
-    public ICollection<PostTag>? Tags { get; set; }
+    public ICollection<Tag>? Tags { get; set; }
 
     /// <summary>
     /// Пользователь, который удалил пост. Связь 1:n.

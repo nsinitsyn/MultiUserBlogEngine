@@ -8,6 +8,8 @@ internal class PostReactionConfig : IEntityTypeConfiguration<PostReaction>
 {
     public void Configure(EntityTypeBuilder<PostReaction> builder)
     {
+        builder.ToTable($"{nameof(PostReaction)}s");
+
         builder.HasKey(x => new { x.UserId, x.PostId });
     }
 }

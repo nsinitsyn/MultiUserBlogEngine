@@ -8,6 +8,8 @@ internal class PostGuestUserViewConfig : IEntityTypeConfiguration<PostGuestUserV
 {
     public void Configure(EntityTypeBuilder<PostGuestUserView> builder)
     {
+        builder.ToTable($"{nameof(PostGuestUserView)}s");
+
         builder.HasKey(x => new { x.PostId, x.IpAddress });
     }
 }

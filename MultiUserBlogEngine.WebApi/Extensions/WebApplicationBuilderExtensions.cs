@@ -9,7 +9,7 @@ public static class WebApplicationBuilderExtensions
     {
         builder.Services.AddControllers();
 
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-        builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+        var connectionString = builder.Configuration.GetConnectionString("PostgreConnection");
+        builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
     }
 }

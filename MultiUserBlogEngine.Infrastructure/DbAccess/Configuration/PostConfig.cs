@@ -14,6 +14,13 @@ internal class PostConfig : IEntityTypeConfiguration<Post>
             .HasForeignKey(x => x.DeletedUserId);
 
         builder.HasMany(x => x.UserViews)
-            .WithMany();
+            .WithMany()
+            .UsingEntity("PostUserViewLink")
+            .ToTable("PostUserViewLinks");
+
+        builder.HasMany(x => x.Tags)
+            .WithMany(x => x.Posts)
+            .UsingEntity("PostTagLink")
+            .ToTable("PostTagLinks");
     }
 }
