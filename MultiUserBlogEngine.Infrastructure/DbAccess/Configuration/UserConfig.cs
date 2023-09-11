@@ -38,8 +38,8 @@ internal class UserConfig : IEntityTypeConfiguration<User>
         builder.HasMany(x => x.SubscribedTo)
             .WithMany(x => x.Subscribers)
             .UsingEntity<UserSubscribedToLink>(
-                b => b.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId),
-                b => b.HasOne(x => x.SubscribedToUser).WithMany().HasForeignKey(x => x.SubscribedToUserId))
+                b => b.HasOne(x => x.SubscribedToUser).WithMany().HasForeignKey(x => x.SubscribedToUserId),
+                b => b.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId))
             .ToTable($"{nameof(UserSubscribedToLink)}s");
 
         builder.HasMany(x => x.IgnoredPostTags)
@@ -50,8 +50,8 @@ internal class UserConfig : IEntityTypeConfiguration<User>
         builder.HasMany(x => x.IgnoredAuthors)
             .WithMany()
             .UsingEntity<UserIgnoredAuthorLink>(
-                b => b.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId),
-                b => b.HasOne(x => x.IgnoredAuthorUser).WithMany().HasForeignKey(x => x.IgnoredAuthorUserId))
+                b => b.HasOne(x => x.IgnoredAuthorUser).WithMany().HasForeignKey(x => x.IgnoredAuthorUserId),
+                b => b.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId))
             .ToTable($"{nameof(UserIgnoredAuthorLink)}s");
     }
 }

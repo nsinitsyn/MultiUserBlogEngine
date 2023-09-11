@@ -1,0 +1,2 @@
+Команда добавления миграции:
+dotnet ef migrations add [...MigrationName...] --project C:\Users\nsini\source\repos\MultiUserBlogEngine\MultiUserBlogEngine.Infrastructure --startup-project C:\Users\nsini\source\repos\MultiUserBlogEngine\MultiUserBlogEngine.WebApi

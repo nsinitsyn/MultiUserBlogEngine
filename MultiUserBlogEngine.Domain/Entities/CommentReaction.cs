@@ -9,4 +9,10 @@ public class CommentReaction
     public bool IsLike { get; set; }
 
     public DateTime CreatedDateTime { get; set; }
+
+    #region Связи
+
+    public User? User { get; set; }
+
+    #endregion
 }

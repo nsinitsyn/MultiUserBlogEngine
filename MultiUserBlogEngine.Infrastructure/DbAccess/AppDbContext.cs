@@ -7,7 +7,14 @@ namespace MultiUserBlogEngine.Infrastructure.DbAccess;
 
 public class AppDbContext : DbContext
 {
-    // todo: индексы, ограничения на MaxLength для string
+    /*
+     * todo:
+     * индексы
+     * ограничения на MaxLength для string
+     * автозаполнение авторских полей
+     * логгирование sql запросов в отдельный файл
+     * точно ли нужен AddUtcConverter
+     */
 
     public AppDbContext(DbContextOptions<AppDbContext> options) 
         : base(options)

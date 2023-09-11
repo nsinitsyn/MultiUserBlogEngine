@@ -36,12 +36,12 @@ public class Comment : AuthoredEntity
     /// <summary>
     /// Пользователь, оставивший комментарий. Связь 1:n.
     /// </summary>
-    public required User User { get; set; }
+    public User? User { get; set; }
 
     /// <summary>
     /// Пост, к которому оставлен комментарий. Связь 1:n.
     /// </summary>
-    public required Post Post { get; set; }
+    public Post? Post { get; set; }
 
     /// <summary>
     /// Комментарий, ответом на который является текущий комментарий. Связь 1:n.
@@ -51,7 +51,7 @@ public class Comment : AuthoredEntity
     /// <summary>
     /// Ответы на текущий комментарий. Связь 1:n.
     /// </summary>
-    public required ICollection<Comment> ChildComments { get; set; }
+    public ICollection<Comment>? ChildComments { get; set; }
 
     /// <summary>
     /// Пользователь, который удалил комментарий. Связь 1:n.
@@ -61,7 +61,7 @@ public class Comment : AuthoredEntity
     /// <summary>
     /// Лайки и дизлайки комментария. Связь 1:n.
     /// </summary>
-    public required ICollection<CommentReaction> Reactions { get; set; }
+    public ICollection<CommentReaction>? Reactions { get; set; }
 
     #endregion
 }

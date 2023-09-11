@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MultiUserBlogEngine.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230911173508_1_Initialization")]
+    [Migration("20230911201506_1_Initialization")]
     partial class _1_Initialization
     {
         /// <inheritdoc />
@@ -659,11 +659,21 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
 
             modelBuilder.Entity("MultiUserBlogEngine.Domain.Entities.PostReaction", b =>
                 {
-                    b.HasOne("MultiUserBlogEngine.Domain.Entities.Post", null)
+                    b.HasOne("MultiUserBlogEngine.Domain.Entities.Post", "Post")
                         .WithMany("Reactions")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("MultiUserBlogEngine.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MultiUserBlogEngine.Domain.Entities.PostViews", b =>
