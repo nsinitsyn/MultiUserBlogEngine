@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MultiUserBlogEngine.Domain.Entities;
+using MultiUserBlogEngine.Domain.Entities.Base;
 using System.Reflection;
 
 namespace MultiUserBlogEngine.Infrastructure.DbAccess;
@@ -14,6 +15,8 @@ public class AppDbContext : DbContext
      * автозаполнение авторских полей
      * логгирование sql запросов в отдельный файл
      * точно ли нужен AddUtcConverter
+     * попробовать вместо связи 1:1 для BlockedUser технику Собственные типы - стр. 320-324
+     * Как быстро получать Лучшее, Новое?
      */
 
     public AppDbContext(DbContextOptions<AppDbContext> options) 
@@ -30,14 +33,10 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        AddUtcConverter(modelBuilder);
+        SetupDateTimeProperties(modelBuilder);
     }
 
-    /// <summary>
-    /// Добавляет конвертер, указывающий Kind равным Utc во все поля DateTime для всех сущностей при чтении из БД.
-    /// </summary>
-    /// <param name="modelBuilder"></param>
-    private static void AddUtcConverter(ModelBuilder modelBuilder)
+    private static void SetupDateTimeProperties(ModelBuilder modelBuilder)
     {
         var utcConverter = new ValueConverter<DateTime, DateTime>(
             toDb => toDb,
@@ -50,6 +49,12 @@ public class AppDbContext : DbContext
                 if (entityProperty.ClrType == typeof(DateTime))
                 {
                     entityProperty.SetValueConverter(utcConverter);
+
+                    if (entityProperty.Name == nameof(AuthoredEntity.CreatedDateTime) || 
+                        entityProperty.Name == nameof(AuthoredEntity.LastUpdatedDateTime))
+                    {
+                        entityProperty.SetDefaultValueSql("now()");
+                    }
                 }
             }
         }

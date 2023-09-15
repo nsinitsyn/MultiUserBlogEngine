@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MultiUserBlogEngine.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class _1_Initialization : Migration
+    public partial class _1_InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -42,9 +42,9 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                     DeletedUserId = table.Column<int>(type: "integer", nullable: true),
                     DeletedReasonComment = table.Column<string>(type: "text", nullable: true),
                     CreatedUserId = table.Column<int>(type: "integer", nullable: false),
-                    CreatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastUpdatedUserId = table.Column<int>(type: "integer", nullable: true),
-                    LastUpdatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    CreatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
+                    LastUpdatedUserId = table.Column<int>(type: "integer", nullable: false),
+                    LastUpdatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
                 constraints: table =>
                 {
@@ -64,9 +64,9 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                     BlockedUntil = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     BlockedReasonComment = table.Column<string>(type: "text", nullable: true),
                     CreatedUserId = table.Column<int>(type: "integer", nullable: false),
-                    CreatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastUpdatedUserId = table.Column<int>(type: "integer", nullable: true),
-                    LastUpdatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    CreatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
+                    LastUpdatedUserId = table.Column<int>(type: "integer", nullable: false),
+                    LastUpdatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
                 constraints: table =>
                 {
@@ -99,9 +99,9 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                     DeletedUserId = table.Column<int>(type: "integer", nullable: true),
                     DeletedReasonComment = table.Column<string>(type: "text", nullable: true),
                     CreatedUserId = table.Column<int>(type: "integer", nullable: false),
-                    CreatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastUpdatedUserId = table.Column<int>(type: "integer", nullable: true),
-                    LastUpdatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    CreatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
+                    LastUpdatedUserId = table.Column<int>(type: "integer", nullable: false),
+                    LastUpdatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
                 constraints: table =>
                 {
@@ -231,9 +231,9 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                     DeletedUserId = table.Column<int>(type: "integer", nullable: true),
                     DeletedReasonComment = table.Column<string>(type: "text", nullable: true),
                     CreatedUserId = table.Column<int>(type: "integer", nullable: false),
-                    CreatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastUpdatedUserId = table.Column<int>(type: "integer", nullable: true),
-                    LastUpdatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    CreatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
+                    LastUpdatedUserId = table.Column<int>(type: "integer", nullable: false),
+                    LastUpdatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
                 constraints: table =>
                 {
@@ -275,9 +275,9 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                     AppointedUserId = table.Column<int>(type: "integer", nullable: true),
                     AppointedUserProcessedStatusComment = table.Column<string>(type: "text", nullable: true),
                     CreatedUserId = table.Column<int>(type: "integer", nullable: false),
-                    CreatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastUpdatedUserId = table.Column<int>(type: "integer", nullable: true),
-                    LastUpdatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    CreatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
+                    LastUpdatedUserId = table.Column<int>(type: "integer", nullable: false),
+                    LastUpdatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
                 constraints: table =>
                 {
@@ -326,7 +326,7 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                     PostId = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     IsLike = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
                 constraints: table =>
                 {
@@ -466,7 +466,7 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                     CommentId = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     IsLike = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
                 constraints: table =>
                 {
@@ -475,6 +475,12 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                         name: "FK_CommentReactions_Comments_CommentId",
                         column: x => x.CommentId,
                         principalTable: "Comments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CommentReactions_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });

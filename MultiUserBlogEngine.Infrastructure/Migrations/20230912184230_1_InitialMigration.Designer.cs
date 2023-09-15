@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MultiUserBlogEngine.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230911201506_1_Initialization")]
-    partial class _1_Initialization
+    [Migration("20230912184230_1_InitialMigration")]
+    partial class _1_InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,15 +37,19 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<int>("CreatedUserId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime?>("LastUpdatedDateTime")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("LastUpdatedDateTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("now()");
 
-                    b.Property<int?>("LastUpdatedUserId")
+                    b.Property<int>("LastUpdatedUserId")
                         .HasColumnType("integer");
 
                     b.HasKey("UserId");
@@ -66,7 +70,9 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<int>("CreatedUserId")
                         .HasColumnType("integer");
@@ -83,10 +89,12 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime?>("LastUpdatedDateTime")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("LastUpdatedDateTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("now()");
 
-                    b.Property<int?>("LastUpdatedUserId")
+                    b.Property<int>("LastUpdatedUserId")
                         .HasColumnType("integer");
 
                     b.Property<int?>("ParentCommentId")
@@ -120,7 +128,9 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<bool>("IsLike")
                         .HasColumnType("boolean");
@@ -181,7 +191,9 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<int>("CreatedUserId")
                         .HasColumnType("integer");
@@ -207,10 +219,12 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                     b.Property<bool>("IsHidden")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime?>("LastUpdatedDateTime")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("LastUpdatedDateTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("now()");
 
-                    b.Property<int?>("LastUpdatedUserId")
+                    b.Property<int>("LastUpdatedUserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("PreviewContent")
@@ -252,15 +266,19 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<int>("CreatedUserId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime?>("LastUpdatedDateTime")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("LastUpdatedDateTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("now()");
 
-                    b.Property<int?>("LastUpdatedUserId")
+                    b.Property<int>("LastUpdatedUserId")
                         .HasColumnType("integer");
 
                     b.Property<int>("PostComplaintStatus")
@@ -305,7 +323,9 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<bool>("IsLike")
                         .HasColumnType("boolean");
@@ -349,7 +369,9 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<int>("CreatedUserId")
                         .HasColumnType("integer");
@@ -383,10 +405,12 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                     b.Property<string>("LastAuthorizedIpAddress")
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("LastUpdatedDateTime")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("LastUpdatedDateTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("now()");
 
-                    b.Property<int?>("LastUpdatedUserId")
+                    b.Property<int>("LastUpdatedUserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("PhotoUrl")
@@ -566,6 +590,14 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                         .HasForeignKey("CommentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("MultiUserBlogEngine.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MultiUserBlogEngine.Domain.Entities.Links.UserIgnoredAuthorLink", b =>

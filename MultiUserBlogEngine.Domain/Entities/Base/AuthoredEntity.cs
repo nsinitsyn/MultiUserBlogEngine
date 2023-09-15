@@ -6,7 +6,7 @@ public abstract class AuthoredEntity
 
     public DateTime CreatedDateTime { get; set; }
 
-    public int? LastUpdatedUserId { get; set; }
+    public int LastUpdatedUserId { get; set; }
 
-    public DateTime? LastUpdatedDateTime { get; set; }
+    public DateTime LastUpdatedDateTime { get; set; }
 }

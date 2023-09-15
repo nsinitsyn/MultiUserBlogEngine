@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MultiUserBlogEngine.Domain.Entities;
+﻿using MultiUserBlogEngine.Domain.Entities;
 using MultiUserBlogEngine.Domain.Entities.Enum;
 using MultiUserBlogEngine.Infrastructure.DbAccess;
 
