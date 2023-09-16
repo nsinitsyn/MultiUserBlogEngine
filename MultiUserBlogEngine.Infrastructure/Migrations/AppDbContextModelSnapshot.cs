@@ -34,17 +34,13 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("CreatedUserId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("LastUpdatedDateTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("LastUpdatedUserId")
                         .HasColumnType("integer");
@@ -67,9 +63,7 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("CreatedUserId")
                         .HasColumnType("integer");
@@ -87,9 +81,7 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("LastUpdatedDateTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("LastUpdatedUserId")
                         .HasColumnType("integer");
@@ -125,9 +117,7 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsLike")
                         .HasColumnType("boolean");
@@ -188,9 +178,7 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("CreatedUserId")
                         .HasColumnType("integer");
@@ -217,9 +205,7 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("LastUpdatedDateTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("LastUpdatedUserId")
                         .HasColumnType("integer");
@@ -263,17 +249,13 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("CreatedUserId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("LastUpdatedDateTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("LastUpdatedUserId")
                         .HasColumnType("integer");
@@ -320,9 +302,7 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsLike")
                         .HasColumnType("boolean");
@@ -366,9 +346,7 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("CreatedUserId")
                         .HasColumnType("integer");
@@ -403,9 +381,7 @@ namespace MultiUserBlogEngine.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("LastUpdatedDateTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("LastUpdatedUserId")
                         .HasColumnType("integer");

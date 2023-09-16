@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using MultiUserBlogEngine.Domain.Dependencies;
 using MultiUserBlogEngine.Domain.Entities;
 using MultiUserBlogEngine.Domain.Entities.Base;
 using System.Reflection;
@@ -16,12 +18,14 @@ public class AppDbContext : DbContext
      * логгирование sql запросов в отдельный файл
      * точно ли нужен AddUtcConverter
      * попробовать вместо связи 1:1 для BlockedUser технику Собственные типы - стр. 320-324
-     * Как быстро получать Лучшее, Новое?
      */
 
-    public AppDbContext(DbContextOptions<AppDbContext> options) 
+    private IApplicationContext _applicationContext;
+
+    public AppDbContext(DbContextOptions<AppDbContext> options, IApplicationContext applicationContext) 
         : base(options)
     {
+        _applicationContext = applicationContext;
     }
 
     public DbSet<User> Users { get; set; }
@@ -33,10 +37,75 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        SetupDateTimeProperties(modelBuilder);
+        SetupConverters(modelBuilder);
     }
 
-    private static void SetupDateTimeProperties(ModelBuilder modelBuilder)
+    public override int SaveChanges()
+    {
+        int? userId = _applicationContext.GetCurrentUserId();
+
+        if(!userId.HasValue)
+        {
+            throw new InvalidOperationException("Cannot find user for SaveChanges method.");
+        }
+
+        HandleUpdatedEntities(userId.Value);
+
+        ChangeTracker.AutoDetectChangesEnabled = false;
+
+        try
+        {
+            return base.SaveChanges();
+        }
+        finally
+        {
+            ChangeTracker.AutoDetectChangesEnabled = true;
+        }
+    }
+
+    private void HandleUpdatedEntities(int userId)
+    {
+        ChangeTracker.DetectChanges();
+
+        var entries = ChangeTracker.Entries()
+            .Where(x => x.State == EntityState.Modified || x.State == EntityState.Added);
+
+        foreach (var entry in entries)
+        {
+            if (entry.Entity is AuthoredEntity authoredEntity)
+            {
+                LogAuthoredEntity(authoredEntity, entry, userId);
+            }
+        }
+    }
+
+    private void LogAuthoredEntity(AuthoredEntity entity, EntityEntry entry, int userId)
+    {
+        var state = entry.State;
+
+        if(state != EntityState.Added && state != EntityState.Modified)
+        {
+            return;
+        }
+
+        var utcNow = DateTime.UtcNow;
+
+        entity.LastUpdatedUserId = userId;
+        entity.LastUpdatedDateTime = utcNow;
+
+        if(state == EntityState.Added)
+        {
+            entity.CreatedUserId = userId;
+            entity.CreatedDateTime = utcNow;
+        }
+        else
+        {
+            entry.Property(nameof(AuthoredEntity.LastUpdatedUserId)).IsModified = true;
+            entry.Property(nameof(AuthoredEntity.LastUpdatedDateTime)).IsModified = true;
+        }
+    }
+
+    private static void SetupConverters(ModelBuilder modelBuilder)
     {
         var utcConverter = new ValueConverter<DateTime, DateTime>(
             toDb => toDb,
@@ -49,12 +118,6 @@ public class AppDbContext : DbContext
                 if (entityProperty.ClrType == typeof(DateTime))
                 {
                     entityProperty.SetValueConverter(utcConverter);
-
-                    if (entityProperty.Name == nameof(AuthoredEntity.CreatedDateTime) || 
-                        entityProperty.Name == nameof(AuthoredEntity.LastUpdatedDateTime))
-                    {
-                        entityProperty.SetDefaultValueSql("now()");
-                    }
                 }
             }
         }

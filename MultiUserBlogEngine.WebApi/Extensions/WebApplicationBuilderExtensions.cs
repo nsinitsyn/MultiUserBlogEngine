@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MultiUserBlogEngine.Domain.Dependencies;
+using MultiUserBlogEngine.Infrastructure.Context;
 using MultiUserBlogEngine.Infrastructure.DbAccess;
 
 namespace MultiUserBlogEngine.WebApi.Extensions;
@@ -11,5 +13,7 @@ public static class WebApplicationBuilderExtensions
 
         var connectionString = builder.Configuration.GetConnectionString("PostgreConnection");
         builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
+
+        builder.Services.AddSingleton<IApplicationContext, ApplicationContext>();
     }
 }
